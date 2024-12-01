@@ -26,7 +26,7 @@ public class UserController {
     public String signIn(RedirectAttributes redirectAttributes, String username, String password) {
         if (username.equals("admin") && password.equals("admin")) {
             System.out.println("Entrou");
-            return "redirect:/home";
+            return "redirect:/home/";
         }
 
         redirectAttributes.addFlashAttribute("error_message", "Usuário ou senha inválidos");
