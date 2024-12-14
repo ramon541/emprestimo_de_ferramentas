@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="head (title)">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" th:href="@{/images/logo-blue.png}" type="image/png" />
+    <script src="https://unpkg.com/htmx.org@2.0.3/dist/htmx.js"
+        integrity="sha384-BBDmZzVt6vjz5YbQqZPtFZW82o8QotoM7RUp5xOxV3nSJ8u2pSdtzFAbGKzTlKtg"
+        crossorigin="anonymous"></script>
+    <title th:text="${title}">Title</title>
+</head>
+
+<body>
+
+</body>
+
+</html>

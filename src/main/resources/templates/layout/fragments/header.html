@@ -11,12 +11,23 @@
     <div th:fragment="header" class="flex items-center p-4 w-full h-16 bg-white shadow justify-between">
         <div th:replace="~{layout/fragments/logo::logo}"></div>
         <div class="flex">
-            <p class="font-bold mx-4">Home</p>
-            <p class="font-bold mx-4">Empréstimos</p>
-            <p class="font-bold mx-4">Ferramentas</p>
-            <p class="font-bold mx-4">Usuários</p>
+            <p
+                class="mx-4 font-bold text-gray-400 cursor-pointer transition duration-400 hover:text-blue-500 hover:scale-110">
+                <a th:href="@{/home}">Home</a>
+            </p>
+            <p
+                class="mx-4 font-bold text-gray-400 cursor-pointer transition duration-400 hover:text-blue-500 hover:scale-110">
+                <a th:href="@{/emprestimos}">Empréstimos</a>
+            </p>
+            <p
+                class="mx-4 font-bold text-gray-400 cursor-pointer transition duration-400 hover:text-blue-500 hover:scale-110">
+                <a th:href="@{/ferramentas}">Ferramentas</a>
+            </p>
         </div>
-        <p class="font-bold">Sair</p>
+        <p
+            class="mx-4 font-bold text-gray-400 cursor-pointer transition duration-400 hover:text-blue-500 hover:scale-110">
+            <a th:href="@{/}">Sair</a>
+        </p>
     </div>
     </div>
 </body>
