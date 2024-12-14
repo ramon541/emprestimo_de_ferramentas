@@ -3,13 +3,13 @@
 
 <head th:replace="~{layout/fragments/head::head (Empréstimos)}" />
 
-<body class="flex flex-col justify-start items-center bg-blue-100 h-lvh w-lvw">
-    <main id="main" class="flex flex-col w-full h-full">
-        <div th:replace="~{layout/fragments/header::header}" />
-        <card class="bg-white h-4/6 w-4/12 rounded shadow-lg p-8 flex flex-col justify-evenly items-center">
-            <h1>Empréstimos</h1>
+<body class="flex flex-col justify-start items-center bg-blue-100 min-h-lvh min-w-lvw">
+    <div th:replace="~{layout/fragments/header::header}"></div>
+    <div class="flex flex-col w-full h-full justify-center align-middle">
+        <card class="bg-white flex-1 m-6 rounded shadow-lg p-8 flex flex-col justify-center items-start">
+            <h1>Emprestimos</h1>
         </card>
-    </main>
+    </div>
 </body>
 
 </html>
