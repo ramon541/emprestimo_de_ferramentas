@@ -1,7 +1,5 @@
 package daw1.emprestimo_de_ferramentas.services.front;
 
-import java.net.http.HttpRequest;
-
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class FerramentaService {
     }
     
     public List<FerramentaEntity> getFerramentas() {
-        return this.ferramentaRepository.findAll();
+        return this.ferramentaRepository.findAll(Sort.by(Sort.Direction.ASC, "idFerramenta"));
     }
 
     public ResponseEntity<Object> updateFerramenta(Integer id, FerramentaEntity updatedFerramenta) {

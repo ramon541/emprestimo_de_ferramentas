@@ -1,7 +1,5 @@
 package daw1.emprestimo_de_ferramentas.services.front;
 
-import java.util.List;
-
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -11,17 +9,16 @@ import org.springframework.web.client.RestTemplate;
 import daw1.emprestimo_de_ferramentas.entities.FerramentaEntity;
 
 @Service
-public class ListAllFerramentasService {
-    
-    public List<FerramentaEntity> execute() {
+public class UpdateFerramentaService {
+    public FerramentaEntity execute(FerramentaEntity ferramenta) {
         RestTemplate rt = new RestTemplate();
-        HttpEntity<Object> httpEntity = new HttpEntity<>(null);
+        HttpEntity<Object> httpEntity = new HttpEntity<>(ferramenta);
         
-        ParameterizedTypeReference<List<FerramentaEntity>> responseType = new ParameterizedTypeReference<List<FerramentaEntity>>() {};
-
+        ParameterizedTypeReference<FerramentaEntity> responseType = new ParameterizedTypeReference<FerramentaEntity>() {};
+        
         var result = rt.exchange(
-            "http://localhost:8080/api/ferramentas/get",
-            HttpMethod.GET,
+            "http://localhost:8080/api/ferramentas/update/" + ferramenta.getIdFerramenta(),
+            HttpMethod.PUT,
             httpEntity,
             responseType
         );

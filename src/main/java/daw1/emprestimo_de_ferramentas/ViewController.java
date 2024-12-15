@@ -12,7 +12,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import daw1.emprestimo_de_ferramentas.entities.FerramentaEntity;
 import daw1.emprestimo_de_ferramentas.services.front.AddFerramentaService;
 import daw1.emprestimo_de_ferramentas.services.front.DeleteFerramentaService;
+import daw1.emprestimo_de_ferramentas.services.front.GetFerramentaService;
 import daw1.emprestimo_de_ferramentas.services.front.ListAllFerramentasService;
+import daw1.emprestimo_de_ferramentas.services.front.UpdateFerramentaService;
 
 @Controller
 @RequestMapping("/")
@@ -27,6 +29,12 @@ public class ViewController {
 
     @Autowired
     private AddFerramentaService addFerramentaService;
+
+    @Autowired
+    private GetFerramentaService getFerramentaService;
+
+    @Autowired
+    private UpdateFerramentaService updateFerramentaService;
 
     //------------------- LOGIN -------------------
     @GetMapping("/")
@@ -90,6 +98,29 @@ public class ViewController {
         return "redirect:/ferramentas";
     }
 
+    @GetMapping("ferramentas/editar/{id}")
+    public String editarFerramenta(Model model, @PathVariable Integer id) {
+        var result = this.getFerramentaService.execute(id);
+        model.addAttribute("ferramentas", result);
+        return "/editarFerramenta";
+    }
+
+    @PostMapping("ferramentas/update")
+    public String updateFerramenta(RedirectAttributes redirectAttributes, Integer idFerramenta, String nome) {
+        
+        if (nome.trim().equals("")) {
+            redirectAttributes.addFlashAttribute("error_message", "O nome da ferramenta deve estar preenchido");
+            return "redirect:/ferramentas/editar/" + idFerramenta;
+        }
+
+        FerramentaEntity ferramenta = new FerramentaEntity();
+        ferramenta.setIdFerramenta(idFerramenta);
+        ferramenta.setNome(nome);
+        
+        var result = this.updateFerramentaService.execute(ferramenta);
+
+        return "redirect:/ferramentas";
+    }
 
     //------------------- EMPRESTIMOS -------------------
     @GetMapping("emprestimos")
