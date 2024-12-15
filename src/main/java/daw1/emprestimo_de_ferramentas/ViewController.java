@@ -4,11 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
+import daw1.emprestimo_de_ferramentas.entities.FerramentaEntity;
+import daw1.emprestimo_de_ferramentas.services.front.AddFerramentaService;
+import daw1.emprestimo_de_ferramentas.services.front.DeleteFerramentaService;
 import daw1.emprestimo_de_ferramentas.services.front.ListAllFerramentasService;
 
 @Controller
@@ -18,6 +21,12 @@ public class ViewController {
 
     @Autowired
     private ListAllFerramentasService listAllFerramentasService;
+
+    @Autowired
+    private DeleteFerramentaService deleteFerramentaService;
+
+    @Autowired
+    private AddFerramentaService addFerramentaService;
 
     //------------------- LOGIN -------------------
     @GetMapping("/")
@@ -53,9 +62,34 @@ public class ViewController {
     public String ferramentas(Model model) {
         var result = this.listAllFerramentasService.execute();
         model.addAttribute("ferramentas", result);
-        System.out.println(result);
         return "/ferramentas";
     }
+    
+    @GetMapping("ferramentas/remover/{id}")
+    public String ferramentasRemover(@PathVariable Integer id) {
+        this.deleteFerramentaService.execute(id);
+        return "redirect:/ferramentas";
+    }
+
+    @GetMapping("ferramentas/adicionar")
+    public String ferramentasNova() {
+        return "/novaFerramenta";
+    }
+
+    @PostMapping("ferramentas/add")
+    public String addFerramenta(RedirectAttributes redirectAttributes, String nome) {
+        if (nome.trim().equals("")) {
+            redirectAttributes.addFlashAttribute("error_message", "O nome da ferramenta deve estar preenchido");
+            return "redirect:/ferramentas/adicionar";
+        }
+        
+        FerramentaEntity ferramenta = new FerramentaEntity();
+        ferramenta.setNome(nome);
+        this.addFerramentaService.execute(ferramenta);
+
+        return "redirect:/ferramentas";
+    }
+
 
     //------------------- EMPRESTIMOS -------------------
     @GetMapping("emprestimos")

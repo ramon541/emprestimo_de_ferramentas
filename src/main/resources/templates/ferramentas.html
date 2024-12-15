@@ -10,7 +10,7 @@
             <div class="w-full">
                 <h1 class="font-bold text-3xl">Ferramentas</h1>
             </div>
-            <a href="#"
+            <a th:href="@{/ferramentas/adicionar}"
                 class="font-medium p-2 mt-8 flex justify-center align-middle gap-2 rounded  dark:text-white hover:bg-gray-600 bg-gray-800">
                 Adicionar ferramenta
             </a>
@@ -40,9 +40,13 @@
                                 <a href="#" class="font-medium  dark:text-blue-700 hover:text-blue-400">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a href="#" class="font-medium  dark:text-red-700 hover:text-red-400">
-                                    <i class="fas fa-trash"></i>
-                                </a>
+                                <form th:action="@{/ferramentas/remover/{id}(id=${ferramenta.getIdFerramenta()})}"
+                                    method="get">
+                                    <input type="hidden" name="_method" value="delete" />
+                                    <button type="submit" class="font-medium dark:text-red-700 hover:text-red-400">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     </tbody>
