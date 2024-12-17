@@ -10,12 +10,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import daw1.emprestimo_de_ferramentas.entities.FerramentaEntity;
+import daw1.emprestimo_de_ferramentas.entities.UsuarioEntity;
 import daw1.emprestimo_de_ferramentas.services.front.AddFerramentaService;
+import daw1.emprestimo_de_ferramentas.services.front.AddUsuarioService;
 import daw1.emprestimo_de_ferramentas.services.front.DeleteFerramentaService;
+import daw1.emprestimo_de_ferramentas.services.front.DeleteUsuarioService;
 import daw1.emprestimo_de_ferramentas.services.front.GetFerramentaService;
+import daw1.emprestimo_de_ferramentas.services.front.GetUsuarioService;
 import daw1.emprestimo_de_ferramentas.services.front.ListAllFerramentasService;
 import daw1.emprestimo_de_ferramentas.services.front.ListAllUsuariosService;
 import daw1.emprestimo_de_ferramentas.services.front.UpdateFerramentaService;
+import daw1.emprestimo_de_ferramentas.services.front.UpdateUsuarioService;
 
 @Controller
 @RequestMapping("/")
@@ -38,9 +43,21 @@ public class ViewController {
     @Autowired
     private UpdateFerramentaService updateFerramentaService;
 
-    //------------------- USUARIOS -------------------
+    //------------------- USUÁRIOS -------------------
     @Autowired
     private ListAllUsuariosService listAllUsuariosService;
+    
+    @Autowired
+    private DeleteUsuarioService deleteUsuarioService;
+    
+    @Autowired
+    private AddUsuarioService addUsuarioService;
+    
+    @Autowired
+    private GetUsuarioService getUsuarioService;
+    
+    @Autowired
+    private UpdateUsuarioService updateUsuarioService;
 
     //------------------- LOGIN -------------------
     @GetMapping("/")
@@ -125,7 +142,7 @@ public class ViewController {
         
         var result = this.updateFerramentaService.execute(ferramenta);
 
-        return "redirect:/ferramentas/ferramentas";
+        return "redirect:/ferramentas";
     }
 
     //------------------- EMPRESTIMOS -------------------
@@ -134,11 +151,66 @@ public class ViewController {
         return "/emprestimos/emprestimos";
     }
     
-    //------------------- EMPRESTIMOS -------------------
+    //------------------- USUÁRIOS -------------------
     @GetMapping("usuarios")
     public String usuarios(Model model) {
         var result = this.listAllUsuariosService.execute();
         model.addAttribute("usuarios", result);
         return "/usuarios/usuarios";
+    }
+
+    @GetMapping("usuarios/remover/{id}")
+    public String usuariosRemover(@PathVariable Integer id) {
+        this.deleteUsuarioService.execute(id);
+        return "redirect:/usuarios";
+    }
+
+    @GetMapping("usuarios/adicionar")
+    public String usuarioNovo() {
+        return "/usuarios/novoUsuario";
+    }
+
+    @PostMapping("usuarios/add")
+    public String addUsuario(RedirectAttributes redirectAttributes, String nome, String login, String senha, Integer isAdmin) {
+        if (nome.trim().equals("") || login.trim().equals("") || senha.trim().equals("")) {
+            redirectAttributes.addFlashAttribute("error_message", "Todos os campos devem estar preenchidos");
+            return "redirect:/usuarios/adicionar";
+        }
+        
+        UsuarioEntity usuario = new UsuarioEntity();
+        usuario.setNome(nome);
+        usuario.setLogin(login);
+        usuario.setSenha(senha);
+        usuario.setIsAdmin(isAdmin);
+        this.addUsuarioService.execute(usuario);
+
+        return "redirect:/usuarios";
+    }
+
+    @GetMapping("usuarios/editar/{id}")
+    public String editarUsuario(Model model, @PathVariable Integer id) {
+        var result = this.getUsuarioService.execute(id);
+        model.addAttribute("usuarios", result);
+        return "/usuarios/editarUsuario";
+    }
+
+    @PostMapping("usuarios/update")
+    public String updateUsuario(RedirectAttributes redirectAttributes, Integer idUsuario, String nome, String login, String senha, Integer isAdmin) {
+        
+        if (nome.trim().equals("") || login.trim().equals("") || senha.trim().equals("")) {
+            redirectAttributes.addFlashAttribute("error_message", "Todos os campos devem estar preenchidos!");
+            return "redirect:/usuarios/editar/" + idUsuario;
+        }
+
+        UsuarioEntity usuario = new UsuarioEntity();
+        usuario.setIdUsuario(idUsuario);
+        usuario.setNome(nome);
+        usuario.setLogin(login);
+        usuario.setSenha(senha);
+        usuario.setIsAdmin(isAdmin);
+        
+        var result = this.updateUsuarioService.execute(usuario);
+
+        return "redirect:/usuarios";
     }
 }
