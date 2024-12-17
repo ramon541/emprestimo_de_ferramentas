@@ -14,6 +14,7 @@ import daw1.emprestimo_de_ferramentas.services.front.AddFerramentaService;
 import daw1.emprestimo_de_ferramentas.services.front.DeleteFerramentaService;
 import daw1.emprestimo_de_ferramentas.services.front.GetFerramentaService;
 import daw1.emprestimo_de_ferramentas.services.front.ListAllFerramentasService;
+import daw1.emprestimo_de_ferramentas.services.front.ListAllUsuariosService;
 import daw1.emprestimo_de_ferramentas.services.front.UpdateFerramentaService;
 
 @Controller
@@ -21,6 +22,7 @@ import daw1.emprestimo_de_ferramentas.services.front.UpdateFerramentaService;
 public class ViewController {
 
 
+    //------------------- FERRAMENTAS -------------------
     @Autowired
     private ListAllFerramentasService listAllFerramentasService;
 
@@ -36,6 +38,10 @@ public class ViewController {
     @Autowired
     private UpdateFerramentaService updateFerramentaService;
 
+    //------------------- USUARIOS -------------------
+    @Autowired
+    private ListAllUsuariosService listAllUsuariosService;
+
     //------------------- LOGIN -------------------
     @GetMapping("/")
     public String redirect() {
@@ -45,7 +51,7 @@ public class ViewController {
 
     @GetMapping("/login")
     public String login() {
-        return "user/login";
+        return "usuarios/login";
     }
 
     @PostMapping("/signIn")
@@ -70,7 +76,7 @@ public class ViewController {
     public String ferramentas(Model model) {
         var result = this.listAllFerramentasService.execute();
         model.addAttribute("ferramentas", result);
-        return "/ferramentas";
+        return "/ferramentas/ferramentas";
     }
     
     @GetMapping("ferramentas/remover/{id}")
@@ -81,7 +87,7 @@ public class ViewController {
 
     @GetMapping("ferramentas/adicionar")
     public String ferramentasNova() {
-        return "/novaFerramenta";
+        return "/ferramentas/novaFerramenta";
     }
 
     @PostMapping("ferramentas/add")
@@ -102,7 +108,7 @@ public class ViewController {
     public String editarFerramenta(Model model, @PathVariable Integer id) {
         var result = this.getFerramentaService.execute(id);
         model.addAttribute("ferramentas", result);
-        return "/editarFerramenta";
+        return "/ferramentas/editarFerramenta";
     }
 
     @PostMapping("ferramentas/update")
@@ -119,12 +125,20 @@ public class ViewController {
         
         var result = this.updateFerramentaService.execute(ferramenta);
 
-        return "redirect:/ferramentas";
+        return "redirect:/ferramentas/ferramentas";
     }
 
     //------------------- EMPRESTIMOS -------------------
     @GetMapping("emprestimos")
     public String emprestimos() {
-        return "/emprestimos";
+        return "/emprestimos/emprestimos";
+    }
+    
+    //------------------- EMPRESTIMOS -------------------
+    @GetMapping("usuarios")
+    public String usuarios(Model model) {
+        var result = this.listAllUsuariosService.execute();
+        model.addAttribute("usuarios", result);
+        return "/usuarios/usuarios";
     }
 }

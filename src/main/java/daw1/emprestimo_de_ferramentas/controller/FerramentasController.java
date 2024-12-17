@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import daw1.emprestimo_de_ferramentas.entities.FerramentaEntity;
-import daw1.emprestimo_de_ferramentas.repository.FerramentaRepository;
 import daw1.emprestimo_de_ferramentas.services.FerramentaService;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -31,7 +29,7 @@ public class FerramentasController {
         this.ferramentaService = ferramentaService;
     }
 
-    //----------------------- Nova ferramenta -----------------------
+    //----------------------- Pegar ferramentas -----------------------
     @GetMapping("/get")
     public List<FerramentaEntity> getAllFerramentas() {
         return this.ferramentaService.getFerramentas();
@@ -59,6 +57,6 @@ public class FerramentasController {
     //----------------------- Pegar ferramenta -----------------------
     @GetMapping("/get/{id}")
     public ResponseEntity<Object> getFerramentaById(@PathVariable Integer id) {
-        return this.ferramentaService.getFerremantaById(id);
+        return this.ferramentaService.getFerramentaById(id);
     }
 }

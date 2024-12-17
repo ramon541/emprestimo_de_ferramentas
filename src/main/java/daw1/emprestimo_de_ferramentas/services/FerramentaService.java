@@ -60,7 +60,7 @@ public class FerramentaService {
         return ResponseEntity.ok().build();
     }
 
-    public ResponseEntity<Object> getFerremantaById(Integer id) {
+    public ResponseEntity<Object> getFerramentaById(Integer id) {
         Optional<FerramentaEntity> ferramentaOptional = ferramentaRepository.findById(id);
         
         if (!ferramentaOptional.isPresent()) {
