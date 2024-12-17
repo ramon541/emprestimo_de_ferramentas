@@ -42,6 +42,9 @@ public class UsuarioService {
         UsuarioEntity existingUsuario = usuarioOptional.get();
 
         existingUsuario.setNome(updatedUsuario.getNome());
+        existingUsuario.setLogin(updatedUsuario.getLogin());
+        existingUsuario.setSenha(updatedUsuario.getSenha());
+        existingUsuario.setIsAdmin(updatedUsuario.getIsAdmin());
 
         usuarioRepository.save(existingUsuario);
 
