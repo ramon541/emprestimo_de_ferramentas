@@ -19,6 +19,7 @@ import daw1.emprestimo_de_ferramentas.services.front.GetFerramentaService;
 import daw1.emprestimo_de_ferramentas.services.front.GetUsuarioService;
 import daw1.emprestimo_de_ferramentas.services.front.ListAllFerramentasService;
 import daw1.emprestimo_de_ferramentas.services.front.ListAllUsuariosService;
+import daw1.emprestimo_de_ferramentas.services.front.LoginUsuarioService;
 import daw1.emprestimo_de_ferramentas.services.front.UpdateFerramentaService;
 import daw1.emprestimo_de_ferramentas.services.front.UpdateUsuarioService;
 
@@ -58,6 +59,9 @@ public class ViewController {
     
     @Autowired
     private UpdateUsuarioService updateUsuarioService;
+    
+    @Autowired
+    private LoginUsuarioService loginUsuarioService;
 
     //------------------- LOGIN -------------------
     @GetMapping("/")
@@ -73,12 +77,23 @@ public class ViewController {
 
     @PostMapping("/signIn")
     public String signIn(RedirectAttributes redirectAttributes, String username, String password) {
-        if (username.equals("admin") && password.equals("admin")) {
-            return "redirect:/home";
+        if (username.trim().equals("") || password.trim().equals("")) {
+            redirectAttributes.addFlashAttribute("error_message", "Os campos devem ser preenchidos");
+            return "redirect:/login";
+        }
+        
+        UsuarioEntity usuario = new UsuarioEntity();
+        usuario.setLogin(username);
+        usuario.setSenha(password);
+        
+        var result = this.loginUsuarioService.execute(usuario);
+        
+        if (result == null) {
+            redirectAttributes.addFlashAttribute("error_message", "Usuário ou senha incorretos");
+            return "redirect:/login";
         }
 
-        redirectAttributes.addFlashAttribute("error_message", "Usuário ou senha inválidos");
-        return "redirect:/login";
+        return "redirect:/home";
     }
 
 

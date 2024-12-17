@@ -65,9 +65,21 @@ public class UsuarioService {
 
     public ResponseEntity<Object> getUsuarioById(Integer id) {
         Optional<UsuarioEntity> usuarioOptional = usuarioRepository.findById(id);
-        
+
         if (!usuarioOptional.isPresent()) {
             return ResponseEntity.notFound().build();
+        }
+
+        UsuarioEntity usuario = usuarioOptional.get();
+
+        return ResponseEntity.ok(usuario);
+    }
+
+    public ResponseEntity<Object> login(UsuarioEntity usuarioEntity) {
+        Optional<UsuarioEntity> usuarioOptional = usuarioRepository.findByLoginAndSenha(usuarioEntity.getLogin(), usuarioEntity.getSenha());
+        
+        if (!usuarioOptional.isPresent()) {
+            return ResponseEntity.ok().build();
         }
 
         UsuarioEntity usuario = usuarioOptional.get();

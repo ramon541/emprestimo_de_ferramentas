@@ -59,4 +59,10 @@ public class UsuariosController {
     public ResponseEntity<Object> getUsuarioById(@PathVariable Integer id) {
         return this.usuarioService.getUsuarioById(id);
     }
+
+    //----------------------- Login -----------------------
+    @PostMapping("/login")
+    public ResponseEntity<Object> login(@RequestBody UsuarioEntity usuario) {
+        return this.usuarioService.login(usuario);
+    }
 }
